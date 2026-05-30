@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <div class="accessbar" aria-label="Preferencias de acessibilidade">
+      <div>
+        <button id="contrastToggle" class="text-button" type="button" aria-pressed="false">Alto contraste</button>
+        <button id="fontToggle" class="text-button" type="button" aria-pressed="false">Fonte ampliada</button>
+      </div>
+      <div class="social-links" aria-label="Links institucionais">
+        <a href="https://www.instagram.com/prefeiturabetim/">Instagram</a>
+        <a href="https://www.facebook.com/prefeituradebetim/">Facebook</a>
+        <a href="https://www.youtube.com/user/PrefeituradeBetim">YouTube</a>
+      </div>
+    </div>
+
     <header class="app-header">
       <div class="hero-media">
         <img src="reinado-colonia-santa-isabel.jpg" alt="Guarda de Congado durante celebracao do Reinado de Nossa Senhora do Rosario">
@@ -15,6 +27,7 @@
         <strong>Reinado Santa Isabel</strong>
         <div class="nav-actions">
           <button class="tab-button active" data-view="dashboard" type="button">Painel</button>
+          <button class="tab-button" data-view="festividade" type="button">Festividade</button>
           <button class="tab-button" data-view="edicoes" type="button">Edicoes</button>
           <button class="tab-button" data-view="participantes" type="button">Participantes</button>
           <button class="tab-button" data-view="locais" type="button">Locais</button>
@@ -96,6 +109,68 @@
         </div>
       </section>
 
+      <section id="festividade" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Portal cultural</p>
+            <h2>A festividade e seus saberes</h2>
+          </div>
+        </div>
+
+        <div class="quick-card-grid">
+          <article>
+            <span>Calendario oficial</span>
+            <strong>Edicoes por ano</strong>
+            <p>Datas de novenas, levantamento de bandeira, cortejos, Missa Conga e encerramento ficam ligadas a cada edicao cadastrada.</p>
+          </article>
+          <article>
+            <span>Rotas e locais</span>
+            <strong>Mapa comunitario</strong>
+            <p>O sistema organiza a Sede da Irmandade, o Rio Paraopeba, a barca e demais pontos usados pela comunidade.</p>
+          </article>
+          <article>
+            <span>Acervo e memoria</span>
+            <strong>Historia viva</strong>
+            <p>Registros culturais reunem narrativas, personagens, ritos, documentos e informacoes para moradores, visitantes e pesquisadores.</p>
+          </article>
+        </div>
+
+        <div class="story-layout">
+          <section class="panel">
+            <p class="eyebrow">Tradicao de Betim</p>
+            <h3>Cultura viva que atravessa geracoes</h3>
+            <p>
+              A Festa do Reinado reune a comunidade em torno da devocao a Nossa Senhora do Rosario, preservando cantos, tambores, cortejos e memorias ancestrais.
+            </p>
+            <p>
+              Este espaco digital transforma essa pratica comunitaria em um sistema de consulta, cadastro e continuidade historica para as proximas edicoes.
+            </p>
+          </section>
+          <section class="panel guard-panel">
+            <p class="eyebrow">Guardas e ternos</p>
+            <h3>Funcoes culturais no cortejo</h3>
+            <div class="guard-grid">
+              <article>
+                <strong>Congo</strong>
+                <p>Dancas, cantos e roupas vibrantes que anunciam a alegria do cortejo.</p>
+              </article>
+              <article>
+                <strong>Mocambique</strong>
+                <p>Ritmo cadenciado, gungas e guarda da coroa e dos altares.</p>
+              </article>
+              <article>
+                <strong>Catupe</strong>
+                <p>Musicalidade propria que amplia a harmonia da celebracao.</p>
+              </article>
+              <article>
+                <strong>Marujada</strong>
+                <p>Cantos ligados as jornadas pelas aguas e a chegada da imagem pelo rio.</p>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+
       <section id="edicoes" class="view">
         <div class="section-heading">
           <div>
@@ -132,12 +207,21 @@
         <form id="participantForm" class="form-grid">
           <input type="hidden" name="id">
           <label>Nome<input name="name" type="text" required></label>
-          <label>Funcao<input name="role" type="text" placeholder="Guarda, coordenacao, devoto..." required></label>
+          <label>Funcao<input name="role" type="text" list="roleSuggestions" placeholder="Guarda, coordenacao, devoto..." required></label>
           <label>Ano<select name="editionYear" required></select></label>
           <label>Contato<input name="contact" type="text" placeholder="Telefone ou email"></label>
           <label class="full-row">Observacoes<textarea name="notes" rows="3"></textarea></label>
           <button type="submit">Salvar participante</button>
         </form>
+        <datalist id="roleSuggestions">
+          <option value="Visitante"></option>
+          <option value="Morador"></option>
+          <option value="Capitao"></option>
+          <option value="Guarda/Terno"></option>
+          <option value="Organizador"></option>
+          <option value="Convidado"></option>
+          <option value="Devoto"></option>
+        </datalist>
         <div id="participantList" class="table-wrap"></div>
       </section>
 
@@ -224,6 +308,12 @@
       <p>
         Dados iniciais baseados na noticia da Prefeitura de Betim:
         <a href="https://www.betim.mg.gov.br/portal/noticias/0/3/15107/cultura-e-devocao-fim-de-semana-marca-celebracao-de-reinado-de-nossa-senhora-do-rosario-da-colonia-santa-isabel">Cultura e devocao: Reinado de Nossa Senhora do Rosario da Colonia Santa Isabel</a>.
+      </p>
+      <p>
+        Links uteis:
+        <a href="https://www.betim.mg.gov.br">Prefeitura de Betim</a>,
+        <a href="https://www.betim.mg.gov.br/portal/secretarias/2/secretaria-municipal-de-cultura-secult">Secretaria Municipal de Arte e Cultura</a> e
+        <a href="https://brasil.un.org/pt-br/sdgs/11/key-activities">ODS 11 - Cidades e comunidades sustentaveis</a>.
       </p>
       <p>Os dados novos ficam salvos no navegador deste computador por armazenamento local.</p>
     </footer>

@@ -1,4 +1,5 @@
 const STORAGE_KEY = "reinadoSantaIsabelDataV1";
+const ACCESSIBILITY_KEY = "reinadoSantaIsabelAccessibilityV1";
 
 const seedData = {
   editions: [
@@ -129,6 +130,30 @@ const seedData = {
       title: "Irmandade criada em 2010",
       category: "Historia",
       description: "A historia recente da festa se fortaleceu com a criacao da Irmandade em 2010 e a primeira Missa Conga em 2011."
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "Terno de Congo",
+      category: "Rito",
+      description: "Guarda marcada por cantos, dancas, cores vibrantes e movimentos que anunciam a alegria do cortejo."
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "Terno de Mocambique",
+      category: "Rito",
+      description: "Tradicao de ritmo cadenciado, gungas e papel de guarda da coroa, dos altares e da memoria ancestral."
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "Terno de Catupe",
+      category: "Rito",
+      description: "Expressao musical que enriquece a harmonia sonora da celebracao com instrumentos e batidas proprias."
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "Marujada",
+      category: "Historia",
+      description: "Registro cultural associado a cantos de jornada, aguas e chegada simbolica da imagem protetora pelo rio."
     }
   ]
 };
@@ -140,6 +165,8 @@ const tabButtons = document.querySelectorAll(".tab-button");
 const searchInput = document.querySelector("#searchInput");
 const yearFilter = document.querySelector("#yearFilter");
 const participantYearSelect = document.querySelector("#participantForm select[name='editionYear']");
+const contrastToggle = document.querySelector("#contrastToggle");
+const fontToggle = document.querySelector("#fontToggle");
 
 const formatDate = (value) =>
   new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`));
@@ -157,6 +184,35 @@ function loadData() {
 
 function saveData() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function ensureDefaultRecords() {
+  const cultureByTitle = new Set(data.culture.map((record) => normalize(record.title)));
+  seedData.culture.forEach((record) => {
+    if (!cultureByTitle.has(normalize(record.title))) {
+      data.culture.push({ ...record, id: crypto.randomUUID() });
+    }
+  });
+  saveData();
+}
+
+function loadAccessibility() {
+  try {
+    return JSON.parse(localStorage.getItem(ACCESSIBILITY_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveAccessibility(settings) {
+  localStorage.setItem(ACCESSIBILITY_KEY, JSON.stringify(settings));
+}
+
+function applyAccessibility(settings = loadAccessibility()) {
+  document.body.classList.toggle("high-contrast", Boolean(settings.highContrast));
+  document.body.classList.toggle("font-large", Boolean(settings.fontLarge));
+  contrastToggle.setAttribute("aria-pressed", String(Boolean(settings.highContrast)));
+  fontToggle.setAttribute("aria-pressed", String(Boolean(settings.fontLarge)));
 }
 
 function normalize(value) {
@@ -553,9 +609,25 @@ document.querySelector("#resetData").addEventListener("click", () => {
   refreshAll();
 });
 
+contrastToggle.addEventListener("click", () => {
+  const settings = loadAccessibility();
+  settings.highContrast = !settings.highContrast;
+  saveAccessibility(settings);
+  applyAccessibility(settings);
+});
+
+fontToggle.addEventListener("click", () => {
+  const settings = loadAccessibility();
+  settings.fontLarge = !settings.fontLarge;
+  saveAccessibility(settings);
+  applyAccessibility(settings);
+});
+
 searchInput.addEventListener("input", refreshAll);
 yearFilter.addEventListener("change", refreshAll);
 
 tabButtons.forEach((button) => button.addEventListener("click", () => switchView(button.dataset.view)));
 
+ensureDefaultRecords();
+applyAccessibility();
 refreshAll();
