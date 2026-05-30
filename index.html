@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reinado da Colonia Santa Isabel</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="hero-media">
+        <img src="reinado-colonia-santa-isabel.jpg" alt="Guarda de Congado durante celebracao do Reinado de Nossa Senhora do Rosario">
+      </div>
+      <nav class="topbar" aria-label="Navegacao principal">
+        <strong>Reinado Santa Isabel</strong>
+        <div class="nav-actions">
+          <button class="tab-button active" data-view="dashboard" type="button">Painel</button>
+          <button class="tab-button" data-view="edicoes" type="button">Edicoes</button>
+          <button class="tab-button" data-view="participantes" type="button">Participantes</button>
+          <button class="tab-button" data-view="locais" type="button">Locais</button>
+          <button class="tab-button" data-view="cultura" type="button">Cultura</button>
+          <button class="tab-button" data-view="processo" type="button">Projeto</button>
+        </div>
+      </nav>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Patrimonio imaterial de Betim desde 2020</p>
+          <h1>Memoria viva do Reinado de Nossa Senhora do Rosario da Colonia Santa Isabel</h1>
+          <p>
+            Sistema comunitario para registrar edicoes, participantes, locais, informacoes culturais e proximas celebracoes da festa.
+          </p>
+        </div>
+        <div class="hero-panel" aria-label="Resumo da festa">
+          <span>Festa tradicional</span>
+          <strong>Primeiro domingo de maio</strong>
+          <small>Colonia Santa Isabel, Betim-MG</small>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="Busca e acoes">
+        <label class="search-field">
+          <span>Buscar</span>
+          <input id="searchInput" type="search" placeholder="Nome, local, rito, guarda...">
+        </label>
+        <label>
+          <span>Ano</span>
+          <select id="yearFilter"></select>
+        </label>
+        <button id="addNextEdition" type="button">Adicionar proxima edicao</button>
+        <button id="exportData" type="button">Exportar dados</button>
+        <button id="resetData" class="ghost" type="button">Restaurar base</button>
+      </section>
+
+      <section id="dashboard" class="view active-view">
+        <div class="metrics" aria-label="Indicadores">
+          <article>
+            <span>Edicoes</span>
+            <strong id="metricEditions">0</strong>
+          </article>
+          <article>
+            <span>Participantes</span>
+            <strong id="metricParticipants">0</strong>
+          </article>
+          <article>
+            <span>Locais</span>
+            <strong id="metricPlaces">0</strong>
+          </article>
+          <article>
+            <span>Registros culturais</span>
+            <strong id="metricCulture">0</strong>
+          </article>
+        </div>
+
+        <div class="split-layout">
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Programacao de referencia</p>
+                <h2>Edicao 2026</h2>
+              </div>
+            </div>
+            <div id="featuredSchedule" class="timeline"></div>
+          </section>
+
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Consulta rapida</p>
+                <h2>Dados cadastrados</h2>
+              </div>
+            </div>
+            <div id="quickResults" class="compact-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="edicoes" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Registro por ano</p>
+            <h2>Edicoes da festividade</h2>
+          </div>
+        </div>
+        <form id="editionForm" class="form-grid">
+          <input type="hidden" name="id">
+          <label>Ano<input name="year" type="number" min="2010" required></label>
+          <label>Titulo<input name="title" type="text" required></label>
+          <label>Inicio<input name="startDate" type="date" required></label>
+          <label>Encerramento<input name="endDate" type="date" required></label>
+          <label>Status
+            <select name="status">
+              <option>Planejada</option>
+              <option>Em organizacao</option>
+              <option>Realizada</option>
+            </select>
+          </label>
+          <label class="full-row">Observacoes<textarea name="notes" rows="3"></textarea></label>
+          <button type="submit">Salvar edicao</button>
+        </form>
+        <div id="editionList" class="card-grid"></div>
+      </section>
+
+      <section id="participantes" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Cadastro comunitario</p>
+            <h2>Participantes da festa</h2>
+          </div>
+        </div>
+        <form id="participantForm" class="form-grid">
+          <input type="hidden" name="id">
+          <label>Nome<input name="name" type="text" required></label>
+          <label>Funcao<input name="role" type="text" placeholder="Guarda, coordenacao, devoto..." required></label>
+          <label>Ano<select name="editionYear" required></select></label>
+          <label>Contato<input name="contact" type="text" placeholder="Telefone ou email"></label>
+          <label class="full-row">Observacoes<textarea name="notes" rows="3"></textarea></label>
+          <button type="submit">Salvar participante</button>
+        </form>
+        <div id="participantList" class="table-wrap"></div>
+      </section>
+
+      <section id="locais" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Territorio da celebracao</p>
+            <h2>Locais das atividades</h2>
+          </div>
+        </div>
+        <form id="placeForm" class="form-grid">
+          <input type="hidden" name="id">
+          <label>Nome<input name="name" type="text" required></label>
+          <label>Tipo<input name="type" type="text" placeholder="Sede, rio, trajeto..." required></label>
+          <label class="full-row">Endereco ou referencia<input name="address" type="text" required></label>
+          <label class="full-row">Uso na festa<textarea name="usage" rows="3"></textarea></label>
+          <button type="submit">Salvar local</button>
+        </form>
+        <div id="placeList" class="card-grid"></div>
+      </section>
+
+      <section id="cultura" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Memoria cultural</p>
+            <h2>Informacoes da comunidade</h2>
+          </div>
+        </div>
+        <form id="cultureForm" class="form-grid">
+          <input type="hidden" name="id">
+          <label>Titulo<input name="title" type="text" required></label>
+          <label>Categoria
+            <select name="category">
+              <option>Historia</option>
+              <option>Rito</option>
+              <option>Patrimonio</option>
+              <option>Personagem</option>
+              <option>Documento</option>
+            </select>
+          </label>
+          <label class="full-row">Descricao<textarea name="description" rows="4" required></textarea></label>
+          <button type="submit">Salvar registro cultural</button>
+        </form>
+        <div id="cultureList" class="card-grid"></div>
+      </section>
+
+      <section id="processo" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Base academica aplicada</p>
+            <h2>Processo, requisitos e negocio</h2>
+          </div>
+        </div>
+        <div class="process-grid">
+          <article>
+            <strong>Processo de software</strong>
+            <p>Planejamento, prototipacao, implementacao web, teste de cadastros e validacao com necessidades da comunidade.</p>
+          </article>
+          <article>
+            <strong>Engenharia de requisitos</strong>
+            <p>Necessidades levantadas: guardar memoria, cadastrar participantes, registrar edicoes, mapear locais e consultar dados.</p>
+          </article>
+          <article>
+            <strong>Analise e projeto</strong>
+            <p>Estrutura baseada nas entidades Edicao, Participante, Local, Registro Cultural e Programacao.</p>
+          </article>
+          <article>
+            <strong>Interacao humano-computador</strong>
+            <p>Navegacao por abas, formularios curtos, busca unica, filtros por ano e leitura clara em celular ou computador.</p>
+          </article>
+          <article>
+            <strong>Gerencia de projetos</strong>
+            <p>Etapas organizadas em levantamento, modelagem, desenvolvimento, testes, entrega e manutencao das proximas edicoes.</p>
+          </article>
+          <article>
+            <strong>Processos de negocio</strong>
+            <p>O fluxo considera preparacao, novenas, hasteamento, chegada da imagem pelo rio, cortejos, Missa Conga e encerramento.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Dados iniciais baseados na noticia da Prefeitura de Betim:
+        <a href="https://www.betim.mg.gov.br/portal/noticias/0/3/15107/cultura-e-devocao-fim-de-semana-marca-celebracao-de-reinado-de-nossa-senhora-do-rosario-da-colonia-santa-isabel">Cultura e devocao: Reinado de Nossa Senhora do Rosario da Colonia Santa Isabel</a>.
+      </p>
+      <p>Os dados novos ficam salvos no navegador deste computador por armazenamento local.</p>
+    </footer>
+
+    <template id="emptyState">
+      <div class="empty-state">Nenhum registro encontrado.</div>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
